@@ -1,0 +1,77 @@
+---
+output: rmarkdown::github_document
+---
+
+# pressur
+
+Query and Orchestrate the 'WordPress' 'API'
+
+## Description
+
+'WordPress' has a fairly comprehensive 'API' <https://developer.wordpress.com/>
+that makes it possible to perform blog orchestration ('CRUD' operations on posts, users,
+sites, etc.) as well as retrieve and process blog statistics. Tools are provided to work
+with the 'WordPress' 'API' functions.
+
+### YOU MUST
+
+=> Go here and make an app: <https://developer.wordpress.com/apps/>  
+
+=> Put the `Client ID` you receive into `~/.Renviron` with a line that looks like:
+
+    `WORDPRESS_API_KEY=#####`
+    
+=> Put the `Client Secret` you receive into `~/.Renviron` with a line that looks like:
+
+    `WORDPRESS_API_SECRET=Yn50ds........`
+
+And start with a fresh R session for any of this to even have a remote possibility of working.
+
+### NOTE
+
+Only minimal functionality is provided at present (enough to get stats out).
+
+You are encouraged to poke around the source and contribute PRs or issues for high priority items you'd like to see in the package.
+
+## What's Inside The Tin
+
+The following functions are implemented:
+
+- `wp_auth`:	Authenticate to WordPress
+- `wp_about_me`:	Get your user information
+- `wp_get_my_posts`:	Get all 'my' posts across all sites
+- `wp_post_stats`:	Retrieve statistics for a WordPress post
+- `wp_site_info`:	Get information about a site
+- `wp_site_stats`:	Get a site's stats
+
+## Installation
+
+```{r eval=FALSE}
+devtools::install_github("hrbrmstr/pressur")
+```
+
+```{r message=FALSE, warning=FALSE, error=FALSE, include=FALSE}
+options(width=120)
+```
+
+## Usage
+
+```{r message=FALSE, warning=FALSE, error=FALSE}
+library(pressur)
+
+# current verison
+packageVersion("pressur")
+```
+
+### Basic operation
+
+```{r}
+wp_auth()
+me <- wp_about_me()
+dplyr::glimpse(wp_site_stats(me$primary_blog))
+```
+
+## Code of Conduct
+
+Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+

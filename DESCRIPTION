@@ -1,0 +1,31 @@
+Package: pressur
+Type: Package
+Title: Query and Orchestrate the 'WordPress' 'API'
+Version: 0.1.0
+Date: 2017-12-27
+Authors@R: c(
+    person("Bob", "Rudis", email = "bob@rud.is", role = c("aut", "cre"), 
+           comment = c(ORCID = "0000-0001-5670-2640"))
+  )
+Maintainer: Bob Rudis <bob@rud.is>
+Description: 'WordPress' has a fairly comprehensive 'API' <https://developer.wordpress.com/>
+   that makes it possible to perform blog orchestration ('CRUD' operations on posts, users,
+   sites, etc.) as well as retrieve and process blog statistics. Tools are provided to work
+   with the 'WordPress' 'API' functions.
+URL: https://github.com/hrbrmstr/pressur
+BugReports: https://github.com/hrbrmstr/pressur/issues
+License: AGPL
+Encoding: UTF-8
+Suggests:
+    testthat,
+    covr
+Depends:
+    R (>= 3.2.0)
+Imports:
+    purrr,
+    httr,
+    stringi,
+    crayon,
+    tibble,
+    anytime
+RoxygenNote: 6.0.1.9000
