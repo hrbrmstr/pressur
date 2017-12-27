@@ -7,7 +7,7 @@
 wp_get_my_posts(.quiet = FALSE)
 }
 \arguments{
-\item{quiet}{if \code{TRUE} then no progress information will be displayed}
+\item{.quiet}{if \code{TRUE} then no progress information will be displayed}
 }
 \description{
 Get all 'my' posts across all sites

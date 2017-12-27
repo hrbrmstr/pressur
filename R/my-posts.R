@@ -23,7 +23,7 @@
 #'
 #' @md
 #' @references <https://developer.wordpress.com/docs/api/1.1/get/me/posts/>
-#' @param quiet if `TRUE` then no progress information will be displayed
+#' @param .quiet if `TRUE` then no progress information will be displayed
 #' @export
 #' @examples \dontrun{
 #' wp_auth()

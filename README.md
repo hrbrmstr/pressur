@@ -11,7 +11,12 @@ blog orchestration (‘CRUD’ operations on posts, users, sites, etc.) as
 well as retrieve and process blog statistics. Tools are provided to work
 with the ‘WordPress’ ‘API’ functions.
 
-### YOU MUST
+### `<dalek_voice>` YOU WILL O-BEY `</dalek_voice>`
+
+WordPress API requiring authentication means you have to do the OAuth2
+dance, and most API calls require authentication. That means you need to
+start off working with the WordPress API in/from `pressur` using the
+`wp_auth()` function. For that to work, **YOU MUST**::
 
 \=\> Go here and make an app: <https://developer.wordpress.com/apps/>
 
@@ -27,6 +32,8 @@ that looks like:
 
 And start with a fresh R session for any of this to even have a remote
 possibility of working.
+
+I’ll make friendlier documentation for ^^ in the near future.
 
 ### NOTE
 
@@ -78,11 +85,11 @@ dplyr::glimpse(wp_site_stats(me$primary_blog))
     ##   ..$ visitors_today                 : int 86
     ##   ..$ visitors_yesterday             : int 129
     ##   ..$ visitors                       : int 203068
-    ##   ..$ views_today                    : int 147
+    ##   ..$ views_today                    : int 151
     ##   ..$ views_yesterday                : int 178
     ##   ..$ views_best_day                 : chr "2017-05-15"
     ##   ..$ views_best_day_total           : int 3984
-    ##   ..$ views                          : int 347797
+    ##   ..$ views                          : int 347802
     ##   ..$ comments                       : int 1324
     ##   ..$ posts                          : int 445
     ##   ..$ followers_blog                 : int 197

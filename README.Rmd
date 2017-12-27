@@ -13,7 +13,9 @@ that makes it possible to perform blog orchestration ('CRUD' operations on posts
 sites, etc.) as well as retrieve and process blog statistics. Tools are provided to work
 with the 'WordPress' 'API' functions.
 
-### YOU MUST
+### `<dalek_voice>` YOU WILL O-BEY `</dalek_voice>`
+
+WordPress API requiring authentication means you have to do the OAuth2 dance, and most API calls require authentication. That means you need to start off working with the WordPress API in/from `pressur` using the `wp_auth()` function. For that to work, **YOU MUST**::
 
 => Go here and make an app: <https://developer.wordpress.com/apps/>  
 
@@ -26,6 +28,8 @@ with the 'WordPress' 'API' functions.
     `WORDPRESS_API_SECRET=Yn50ds........`
 
 And start with a fresh R session for any of this to even have a remote possibility of working.
+
+I'll make friendlier documentation for ^^ in the near future.
 
 ### NOTE
 
