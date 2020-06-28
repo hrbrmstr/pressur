@@ -19,22 +19,69 @@
 
 }
 
-#' Get all 'my' posts across all sites
+#' Get all posts across all sites of the authenticated user
 #'
-#' @md
 #' @references <https://developer.wordpress.com/docs/api/1.1/get/me/posts/>
+#' @param context `edit` (default) for raw post source; `display` for HTML
+#'        rendered source.
+#' @param author id of the author or empty (the default) for 'all authors'
+#' @param after,before (POSIXct or Date object or string that can be converted to one of those)
+#'        Return posts dated before/after the specified datetime.
+#' @param modified_after,modified_before (POSIXct or Date object) Return posts modified before/after
+#'        the specified datetime.
+#' @param status Comma-separated list of statuses for which to query, including any of:
+#'        "publish", "private", "draft", "pending", "future", and "trash", or simply "any". Defaults to "publish"
+#' @param search Search query checked against `title`, `content`, `category.name`, `tag.name`,
+#'        and `author`, and will return results sorted by relevance. Limit: 250 characters
+#' @param sites Optional comma-separated list of specific site IDs to further limit results
 #' @param .quiet if `TRUE` then no progress information will be displayed
 #' @export
-#' @examples \dontrun{
-#' wp_auth()
-#' my_posts <- wp_get_my_posts()
+#' @return data frame of posts
+#' @examples
+#' if (interactive()) {
+#'   wp_auth()
+#'   my_posts <- wp_get_posts()
 #' }
-wp_get_my_posts <- function(.quiet=FALSE) {
+wp_get_posts <- function(context = c("edit", "display"),
+                         author = NULL,
+                         after = NULL,
+                         before = NULL,
+                         modified_after = NULL,
+                         modified_before = NULL,
+                         status = NULL,
+                         search = NULL,
+                         sites = NULL,
+                         .quiet=FALSE) {
+
+  context <- match.arg(context[1], c("edit", "display"))
+
+  if (!is.null(status)) {
+    match.arg(
+      status[1],
+      c("publish", "private", "draft", "pending", "future", "trash", "any")
+    ) -> status
+  }
+
+  after <- iso_it(after[1])
+  before <- iso_it(before[1])
+  modified_after <- iso_it(modified_after[1])
+  modified_before <- iso_it(modified_before[1])
 
   httr::GET(
     url = "https://public-api.wordpress.com/rest/v1.1/me/posts",
     .add_bearer_token(),
-    httr::accept_json()
+    httr::accept_json(),
+    query = list(
+      context = context,
+      author = author[1],
+      after = after[1],
+      before = before[1],
+      modified_after = modified_after[1],
+      modified_before = modified_before[1],
+      status = status[1],
+      search = search[1],
+      sites = sites[1]
+    )
   ) -> res
 
   httr::stop_for_status(res)
@@ -46,12 +93,20 @@ wp_get_my_posts <- function(.quiet=FALSE) {
 
   n_pages <- ceiling(pg$found / 20)
 
-  for (idx in 2:n_pages) {
-    if (!.quiet) cat(crayon::green("."), sep="")
-    pg <- .wp_next_posts_page(pg)
-    .posts[[idx]] <- pg
+  if (n_pages > 1) {
+
+    progress::progress_bar$new(
+      format = " retrieving posts [:bar:] :percent eta: :eta",
+      total = n_pages - 1
+    ) -> .pb
+
+    for (idx in 2:n_pages) {
+      if (!.quiet) .pb$tick()
+      pg <- .wp_next_posts_page(pg)
+      .posts[[idx]] <- pg
+    }
+
   }
-  if (!.quiet) cat("\n",sep="")
 
   purrr::map_df(.posts, ~{
 
@@ -105,8 +160,11 @@ wp_get_my_posts <- function(.quiet=FALSE) {
 
   }) -> .posts_df
 
-  .posts_df$date <- anytime::anytime(.posts_df$date)
-  .posts_df$modified <- anytime::anytime(.posts_df$modified)
+  .date <- try(anytime::anytime(.posts_df$date), silent = TRUE)
+  .modified <- try(anytime::anytime(.posts_df$modified), silent = TRUE)
+
+  if (!inherits(.date, "try-error")) .posts_df$date <- .date
+  if (!inherits(.modified, "try-error")) .posts_df$modified <- .modified
 
   return(.posts_df)
 

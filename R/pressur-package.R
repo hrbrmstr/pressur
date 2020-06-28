@@ -8,6 +8,6 @@
 #' @name pressur
 #' @docType package
 #' @author Bob Rudis (bob@@rud.is)
-#' @import purrr stringi httr crayon anytime
-#' @importFrom tibble data_frame
+#' @import purrr stringi httr crayon anytime progress
+#' @importFrom tibble tibble
 NULL

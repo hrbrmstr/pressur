@@ -1,11 +1,12 @@
-#' Get your user information
+#' Get metadata about the current user.
 #'
-#' @md
 #' @references <https://developer.wordpress.com/docs/api/1.1/get/me/>
+#' @return list with user metadata
 #' @export
-#' @examples \dontrun{
-#' wp_auth()
-#' wp_about_me()
+#' @examples
+#' if (interactive()) {
+#'   wp_auth()
+#'   wp_about_me()
 #' }
 wp_about_me <- function() {
 

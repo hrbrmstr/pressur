@@ -2,19 +2,22 @@
 % Please edit documentation in R/about-me.R
 \name{wp_about_me}
 \alias{wp_about_me}
-\title{Get your user information}
+\title{Get metadata about the current user.}
 \usage{
 wp_about_me()
 }
+\value{
+list with user metadata
+}
 \description{
-Get your user information
+Get metadata about the current user.
 }
 \examples{
-\dontrun{
-wp_auth()
-wp_about_me()
+if (interactive()) {
+  wp_auth()
+  wp_about_me()
 }
 }
 \references{
-\url{https://developer.wordpress.com/docs/api/1.1/get/me/}
+<https://developer.wordpress.com/docs/api/1.1/get/me/>
 }

@@ -3,7 +3,6 @@
 \docType{package}
 \name{pressur}
 \alias{pressur}
-\alias{pressur-package}
 \title{Query and Orchestrate the 'WordPress' 'API'}
 \description{
 'WordPress' has a fairly comprehensive 'API' <https://developer.wordpress.com/>

@@ -7,21 +7,22 @@
 wp_site_stats(site)
 }
 \arguments{
-\item{site}{site id or domain}
+\item{site}{site id or domain; if not specified, the primary site of the
+authenticated user will be used.}
+}
+\value{
+list with a great deal of stats metadata. You are probably most
+        interested in the `visits` element.
 }
 \description{
 Get a site's stats
 }
-\note{
-I've only had this work successfully with my blog by using the site id.
-}
 \examples{
-\dontrun{
-wp_auth()
-me <- wp_about_me()
-wp_site_stats(me$primary_blog)
+if (interactive()) {
+  wp_auth()
+  wp_site_stats()
 }
 }
 \references{
-\url{https://developer.wordpress.com/docs/api/1.1/get/sites/$site/stats/}
+<https://developer.wordpress.com/docs/api/1.1/get/sites/$site/stats/>
 }

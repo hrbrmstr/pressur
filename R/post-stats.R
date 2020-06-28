@@ -25,7 +25,7 @@ wp_post_stats <- function(site, post_id) {
 
   .stats <- httr::content(res)
 
-  tibble::data_frame(
+  tibble::tibble(
     date = as.Date(.stats$date),
     views = .stats$views,
     years = list(.stats$years),

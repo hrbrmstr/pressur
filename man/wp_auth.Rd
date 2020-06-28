@@ -4,16 +4,32 @@
 \alias{wp_auth}
 \title{Authenticate to WordPress}
 \usage{
-wp_auth()
+wp_auth(cache = Sys.getenv("WP_OAUTH_CACHE", unset = TRUE))
+}
+\arguments{
+\item{cache}{either `TRUE` (to read from the default {httr} oauth cache),
+`FALSE` (to not cache the oauth token), `NA` ({httr} will guess
+what to do using some sensible heuristics), or a string which will
+be used as a path to the cache file. You can use an environment
+variable `WP_OAUTH_CACHE` to populate this value. If no value is
+specified this value will default to `TRUE`.}
+}
+\value{
+oauth token (invisibly)
 }
 \description{
 Call this at the start of any WordPress API interaction
 }
+\details{
+After authentication, the current running environment will contain
+a copy of the token which the remaining functions will use and
+the token will be returned invisibly.
+}
 \examples{
-\dontrun{
-wp_auth()
+if (interactive()) {
+  wp_auth()
 }
 }
 \references{
-\url{https://developer.wordpress.com/docs/oauth2/}
+<https://developer.wordpress.com/docs/oauth2/>
 }

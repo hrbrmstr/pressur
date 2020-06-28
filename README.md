@@ -1,4 +1,19 @@
 
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Signed
+by](https://img.shields.io/badge/Keybase-Verified-brightgreen.svg)](https://keybase.io/hrbrmstr)
+![Signed commit
+%](https://img.shields.io/badge/Signed_Commits-100%25-lightgrey.svg)
+[![Linux build
+Status](https://travis-ci.org/hrbrmstr/pressur.svg?branch=master)](https://travis-ci.org/hrbrmstr/pressur)
+[![Coverage
+Status](https://codecov.io/gh/hrbrmstr/pressur/branch/master/graph/badge.svg)](https://codecov.io/gh/hrbrmstr/pressur)
+![Minimal R
+Version](https://img.shields.io/badge/R%3E%3D-3.6.0-blue.svg)
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
+
 # pressur
 
 Query and Orchestrate the ‘WordPress’ ‘API’
@@ -47,9 +62,10 @@ issues for high priority items you’d like to see in the package.
 
 The following functions are implemented:
 
+  - `wp_about_me`: Get metadata about the current user.
   - `wp_auth`: Authenticate to WordPress
-  - `wp_about_me`: Get your user information
-  - `wp_get_my_posts`: Get all ‘my’ posts across all sites
+  - `wp_get_posts`: Get all posts across all sites of the authenticated
+    user
   - `wp_post_stats`: Retrieve statistics for a WordPress post
   - `wp_site_info`: Get information about a site
   - `wp_site_stats`: Get a site’s stats
@@ -57,62 +73,45 @@ The following functions are implemented:
 ## Installation
 
 ``` r
-devtools::install_github("hrbrmstr/pressur")
+remotes::install_gitlab("hrbrmstr/pressur")
+# or
+remotes::install_github("hrbrmstr/pressur")
 ```
+
+NOTE: To use the ‘remotes’ install options you will need to have the
+[{remotes} package](https://github.com/r-lib/remotes) installed.
 
 ## Usage
 
 ``` r
 library(pressur)
 
-# current verison
+# current version
 packageVersion("pressur")
+## [1] '0.2.0'
 ```
-
-    ## [1] '0.1.0'
 
 ### Basic operation
 
 ``` r
+library(hrbrthemes)
+library(ggplot2)
+
 wp_auth()
-me <- wp_about_me()
-dplyr::glimpse(wp_site_stats(me$primary_blog))
+
+stats <- wp_site_stats()
+
+ggplot(stats$visits, aes(period, views)) +
+  geom_col(fill = ft_cols$slate) +
+  scale_y_comma() +
+  labs(x = NULL, y = "views", title = "Site Views") +
+  theme_ipsum_gs(grid="Y")
 ```
 
-    ## List of 3
-    ##  $ date  : chr "2017-12-27"
-    ##  $ stats :List of 24
-    ##   ..$ visitors_today                 : int 86
-    ##   ..$ visitors_yesterday             : int 129
-    ##   ..$ visitors                       : int 203068
-    ##   ..$ views_today                    : int 151
-    ##   ..$ views_yesterday                : int 178
-    ##   ..$ views_best_day                 : chr "2017-05-15"
-    ##   ..$ views_best_day_total           : int 3984
-    ##   ..$ views                          : int 347802
-    ##   ..$ comments                       : int 1324
-    ##   ..$ posts                          : int 445
-    ##   ..$ followers_blog                 : int 197
-    ##   ..$ followers_comments             : int 132
-    ##   ..$ comments_per_month             : int 16
-    ##   ..$ comments_most_active_recent_day: chr "2015-10-05 19:39:56"
-    ##   ..$ comments_most_active_time      : chr "N/A"
-    ##   ..$ comments_spam                  : int 0
-    ##   ..$ categories                     : int 209
-    ##   ..$ tags                           : int 695
-    ##   ..$ shares                         : int 0
-    ##   ..$ shares_twitter                 : int 0
-    ##   ..$ shares_print                   : int 0
-    ##   ..$ shares_linkedin                : int 0
-    ##   ..$ shares_google-plus-1           : int 0
-    ##   ..$ shares_email                   : int 0
-    ##  $ visits:Classes 'tbl_df', 'tbl' and 'data.frame':  30 obs. of  3 variables:
-    ##   ..$ period  : Date[1:30], format: "2017-11-28" "2017-11-29" "2017-11-30" "2017-12-01" ...
-    ##   ..$ views   : int [1:30] 364 389 451 427 432 204 353 424 573 354 ...
-    ##   ..$ visitors: int [1:30] 253 268 300 319 325 154 254 312 399 259 ...
+<img src="man/figures/README-unnamed-chunk-1-1.png" width="672" />
 
 ## Code of Conduct
 
-Please note that this project is released with a [Contributor Code of
-Conduct](CONDUCT.md). By participating in this project you agree to
-abide by its terms.
+Please note that this project is released with a Contributor Code of
+Conduct. By participating in this project you agree to abide by its
+terms.

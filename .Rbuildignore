@@ -10,3 +10,5 @@
 ^doc$
 ^\.httr-oauth$
 ^CONDUCT\.md$
+^~/\.local/wp-oauth-token$
+^LICENSE\.md$

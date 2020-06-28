@@ -7,21 +7,18 @@
 wp_site_info(site)
 }
 \arguments{
-\item{site}{site id or domain}
+\item{site}{site id or domain; if not specified, the primary site of the
+authenticated user will be used.}
 }
 \description{
 Get information about a site
 }
-\note{
-I've only had this work successfully with my blog by using the site id.
-}
 \examples{
-\dontrun{
-wp_auth()
-me <- wp_about_me()
-wp_site_info(me$primary_blog)
+if (interactive() {
+  wp_auth()
+  wp_site_info()
 }
 }
 \references{
-\url{https://developer.wordpress.com/docs/api/1.2/get/sites/$site/}
+<https://developer.wordpress.com/docs/api/1.2/get/sites/$site/>
 }

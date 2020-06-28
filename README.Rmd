@@ -1,17 +1,19 @@
 ---
 output: rmarkdown::github_document
+editor_options: 
+  chunk_output_type: console
 ---
+```{r pkg-knitr-opts, include=FALSE}
+hrbrpkghelpr::global_opts()
+```
 
-# pressur
+```{r badges, results='asis', echo=FALSE, cache=FALSE}
+hrbrpkghelpr::stinking_badges()
+```
 
-Query and Orchestrate the 'WordPress' 'API'
-
-## Description
-
-'WordPress' has a fairly comprehensive 'API' <https://developer.wordpress.com/>
-that makes it possible to perform blog orchestration ('CRUD' operations on posts, users,
-sites, etc.) as well as retrieve and process blog statistics. Tools are provided to work
-with the 'WordPress' 'API' functions.
+```{r description, results='asis', echo=FALSE, cache=FALSE}
+hrbrpkghelpr::yank_title_and_description()
+```
 
 ### `<dalek_voice>` YOU WILL O-BEY `</dalek_voice>`
 
@@ -41,41 +43,44 @@ You are encouraged to poke around the source and contribute PRs or issues for hi
 
 The following functions are implemented:
 
-- `wp_auth`:	Authenticate to WordPress
-- `wp_about_me`:	Get your user information
-- `wp_get_my_posts`:	Get all 'my' posts across all sites
-- `wp_post_stats`:	Retrieve statistics for a WordPress post
-- `wp_site_info`:	Get information about a site
-- `wp_site_stats`:	Get a site's stats
+```{r ingredients, results='asis', echo=FALSE, cache=FALSE}
+hrbrpkghelpr::describe_ingredients()
+```
 
 ## Installation
 
-```{r eval=FALSE}
-devtools::install_github("hrbrmstr/pressur")
-```
-
-```{r message=FALSE, warning=FALSE, error=FALSE, include=FALSE}
-options(width=120)
+```{r install-ex, results='asis', echo=FALSE, cache=FALSE}
+hrbrpkghelpr::install_block()
 ```
 
 ## Usage
 
-```{r message=FALSE, warning=FALSE, error=FALSE}
+```{r lib-ex}
 library(pressur)
 
-# current verison
+# current version
 packageVersion("pressur")
+
 ```
 
 ### Basic operation
 
 ```{r}
+library(hrbrthemes)
+library(ggplot2)
+
 wp_auth()
-me <- wp_about_me()
-dplyr::glimpse(wp_site_stats(me$primary_blog))
+
+stats <- wp_site_stats()
+
+ggplot(stats$visits, aes(period, views)) +
+  geom_col(fill = ft_cols$slate) +
+  scale_y_comma() +
+  labs(x = NULL, y = "views", title = "Site Views") +
+  theme_ipsum_gs(grid="Y")
 ```
 
 ## Code of Conduct
 
-Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
 

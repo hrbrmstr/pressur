@@ -1,19 +1,25 @@
 #' Get information about a site
 #'
-#' @md
 #' @references <https://developer.wordpress.com/docs/api/1.2/get/sites/$site/>
-#' @param site site id or domain
-#' @note I've only had this work successfully with my blog by using the site id.
+#' @param site site id or domain; if not specified, the primary site of the
+#'        authenticated user will be used.
 #' @export
-#' @examples \dontrun{
-#' wp_auth()
-#' me <- wp_about_me()
-#' wp_site_info(me$primary_blog)
+#' @examples
+#' if (interactive() {
+#'   wp_auth()
+#'   wp_site_info()
 #' }
 wp_site_info <- function(site) {
 
+  if (missing(site)) {
+    site_url <- .pkg$me$meta$links$site[1]
+  } else {
+    site_url <- sprintf("https://public-api.wordpress.com/rest/v1.2/sites/%s", site[1])
+  }
+
   httr::GET(
-    url = sprintf("https://public-api.wordpress.com/rest/v1.2/sites/%s", site),
+    url = site_url,
+    .add_bearer_token(),
     httr::accept_json()
   ) -> res
 
